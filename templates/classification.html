@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Классификация вина</title>
+    <link rel="stylesheet" href="/static/classification.css">
+</head>
+<body>
+    <a href="/" class="back-link">← На главную</a>
+    
+    <h1>Классификация вина</h1>
+    
+    <div class="form-container">
+        <form method="post" action="/classification">
+            <div class="form-group">
+                <label for="alcohol">{{ features[0] }}</label>
+                <input type="number" step="0.01" id="alcohol" name="alcohol" 
+                       value="{{ input_values.alcohol if input_values else '' }}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="malic_acid">{{ features[1] }}</label>
+                <input type="number" step="0.01" id="malic_acid" name="malic_acid" 
+                       value="{{ input_values.malic_acid if input_values else '' }}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="ash">{{ features[2] }}</label>
+                <input type="number" step="0.01" id="ash" name="ash" 
+                       value="{{ input_values.ash if input_values else '' }}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="alcalinity_of_ash">{{ features[3] }}</label>
+                <input type="number" step="0.01" id="alcalinity_of_ash" name="alcalinity_of_ash" 
+                       value="{{ input_values.alcalinity_of_ash if input_values else '' }}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="magnesium">{{ features[4] }}</label>
+                <input type="number" step="0.01" id="magnesium" name="magnesium" 
+                       value="{{ input_values.magnesium if input_values else '' }}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="total_phenols">{{ features[5] }}</label>
+                <input type="number" step="0.01" id="total_phenols" name="total_phenols" 
+                       value="{{ input_values.total_phenols if input_values else '' }}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="flavanoids">{{ features[6] }}</label>
+                <input type="number" step="0.01" id="flavanoids" name="flavanoids" 
+                       value="{{ input_values.flavanoids if input_values else '' }}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="nonflavanoid_phenols">{{ features[7] }}</label>
+                <input type="number" step="0.01" id="nonflavanoid_phenols" name="nonflavanoid_phenols" 
+                       value="{{ input_values.nonflavanoid_phenols if input_values else '' }}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="proanthocyanins">{{ features[8] }}</label>
+                <input type="number" step="0.01" id="proanthocyanins" name="proanthocyanins" 
+                       value="{{ input_values.proanthocyanins if input_values else '' }}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="color_intensity">{{ features[9] }}</label>
+                <input type="number" step="0.01" id="color_intensity" name="color_intensity" 
+                       value="{{ input_values.color_intensity if input_values else '' }}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="hue">{{ features[10] }}</label>
+                <input type="number" step="0.01" id="hue" name="hue" 
+                       value="{{ input_values.hue if input_values else '' }}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="od280_od315">{{ features[11] }}</label>
+                <input type="number" step="0.01" id="od280_od315" name="od280_od315" 
+                       value="{{ input_values.od280_od315 if input_values else '' }}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="proline">{{ features[12] }}</label>
+                <input type="number" step="0.01" id="proline" name="proline" 
+                       value="{{ input_values.proline if input_values else '' }}" required>
+            </div>
+            
+            <button type="submit">Определить тип вина</button>
+        </form>
+        
+        {% if prediction %}
+        <div class="result">
+            <h2>Результат классификации</h2>
+            <p><strong>Предсказанный класс:</strong> {{ prediction }}</p>
+            
+            {% if probabilities %}
+            <div class="probabilities">
+                <h3>Вероятности классов:</h3>
+                {% for prob in probabilities %}
+                <div class="probability-bar">
+                    <div class="bar-container">
+                        <div class="bar-fill" data-width="{{ prob * 100 }}"></div>
+                        <span class="bar-label">Класс {{ loop.index0 }}</span>
+                        <span class="bar-value">{{ "%.2f"|format(prob * 100) }}%</span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

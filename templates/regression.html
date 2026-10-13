@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Предсказание стоимости жилья</title>
+    <link rel="stylesheet" href="/static/regression.css">
+</head>
+<body>
+    <a href="/" class="back-link">← На главную</a>
+    
+    <h1>Предсказание стоимости жилья</h1>
+    
+    <div class="form-container">
+        <form method="post" action="/regression">
+            <div class="form-group">
+                <label for="MedInc">{{ features[0] }}</label>
+                <input type="number" step="0.01" id="MedInc" name="MedInc" 
+                       value="{{ input_values.MedInc if input_values else '' }}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="HouseAge">{{ features[1] }}</label>
+                <input type="number" step="0.1" id="HouseAge" name="HouseAge" 
+                       value="{{ input_values.HouseAge if input_values else '' }}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="AveRooms">{{ features[2] }}</label>
+                <input type="number" step="0.01" id="AveRooms" name="AveRooms" 
+                       value="{{ input_values.AveRooms if input_values else '' }}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="AveBedrms">{{ features[3] }}</label>
+                <input type="number" step="0.01" id="AveBedrms" name="AveBedrms" 
+                       value="{{ input_values.AveBedrms if input_values else '' }}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="Population">{{ features[4] }}</label>
+                <input type="number" step="1" id="Population" name="Population" 
+                       value="{{ input_values.Population if input_values else '' }}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="AveOccup">{{ features[5] }}</label>
+                <input type="number" step="0.01" id="AveOccup" name="AveOccup" 
+                       value="{{ input_values.AveOccup if input_values else '' }}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="Latitude">{{ features[6] }}</label>
+                <input type="number" step="0.0001" id="Latitude" name="Latitude" 
+                       value="{{ input_values.Latitude if input_values else '' }}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="Longitude">{{ features[7] }}</label>
+                <input type="number" step="0.0001" id="Longitude" name="Longitude" 
+                       value="{{ input_values.Longitude if input_values else '' }}" required>
+            </div>
+            
+            <button type="submit">Предсказать стоимость</button>
+        </form>
+        
+        {% if prediction is not none %}
+        <div class="result">
+            <h2>Результат предсказания</h2>
+            <p><strong>Предсказанная средняя стоимость дома:</strong></p>
+            <div class="price-display">
+                ${{ "{:,.2f}".format(prediction) }}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
